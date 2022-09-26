@@ -17,6 +17,9 @@ Activate virtual environment
 Install dependencies
 ```pip install -r requirements.txt```
 
+Create the `data` directory
+```mkdir data```
+
 Run the Jupiter notebook
 ```jupyter notebook```
 
