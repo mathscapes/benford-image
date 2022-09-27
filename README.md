@@ -35,3 +35,7 @@ Deactivate virtual environment
 # Usage
 - Copy images to the `data` folder
 - Run the Jupiter notebook
+
+# Branching
+- `main` branch requires PR.
+- To contribute, create a branch as `username_feature/bug/patch`. For example `debanshu_csv-support`. 
