@@ -5,7 +5,7 @@
     License: MIT
 
     Example:
-    >>> python3 benstats.py --dir="data" --csv="batch_001_v2.csv"
+    >>> python3 benstats.py --dir=data --csv=batch.csv
 """
 
 import os
@@ -21,7 +21,7 @@ firsts              = lambda A      : [first(x) for x in A]
 benford             = lambda A      : [firsts(A).count(x) for x in range(1,10)]
 benford_pct         = lambda A      : [round(x/sum(A), float_precision) for x in benford(A)]
 
-def benstats(dir, csv, exif = False):
+def benstats(dir, csv, info = False, exif = False):
     """ Capture Benford Law analysis of all the jpgs/jpegs available in the given directory
     
         @param dir: Directory containing the images 
@@ -57,9 +57,10 @@ def benstats(dir, csv, exif = False):
         data['width'] = img.width
         data['height'] = img.height
 
-        if img.info:
-            for k, v in img.info.items():
-                data["info_" + str(k)] = v
+        if info:
+            if img.info:
+                for k, v in img.info.items():
+                    data["info_" + str(k)] = v
 
         if exif:
             print("Image {} of {} - (1/4) Reading: EXIF data..                                  ".format(files.index(f)+1, len(files)), end='\r')
@@ -175,6 +176,7 @@ if __name__ == "__main__":
     parser.add_argument('-d', '--dir', help='Directory containing the images', required=True)
     parser.add_argument('-c', '--csv', help='CSV file to store the results', required=True)
     parser.add_argument('-e', '--exif', help='Capture EXIF data', action='store_true')
+    parser.add_argument('-i', '--info', help='Capture Info', action="store_true")
 
     args = parser.parse_args()
 
