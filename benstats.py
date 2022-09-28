@@ -180,7 +180,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    benstats(args.dir, args.csv, args.exif)
+    benstats(args.dir, args.csv, args.exif, args.info)
 
 
 
