@@ -14,6 +14,24 @@ import pandas as pd
 import cv2
 import argparse
 
+def remap(x, in_min, in_max, out_min, out_max):
+    """ Remap a value from one range to another
+
+        @param x: Value to be remapped
+        @param in_min: Minimum value of the input range
+        @param in_max: Maximum value of the input range
+        @param out_min: Minimum value of the output range
+        @param out_max: Maximum value of the output range
+
+        @raise ZeroDivisionError: If in_min == in_max
+
+        @return Remapped value
+    """
+    if in_min == in_max:
+        raise ZeroDivisionError("in_min cannot be equal to in_max")
+
+    return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
+
 def benstats2(dir, csv, scale=1, minmax=(0, 255), floating_precision=8):
     """ Capture Benford Law analysis of all the jpgs/jpegs available in the given directory
     
@@ -33,13 +51,15 @@ def benstats2(dir, csv, scale=1, minmax=(0, 255), floating_precision=8):
         scale = 0.25
         img = cv2.resize(img, (int(w*scale), int(h*scale)), interpolation = cv2.INTER_AREA)
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        gray = cv2.normalize(gray, None, minmax[0], minmax[1], cv2.NORM_MINMAX)
+        
+        # Remap pixel values from (0,255) to (minmax[0], minmax[1])
+        gray = remap(gray, 0, 255, minmax[0], minmax[1])
 
         gray = gray.flatten();
 
         gray_firsts = [int(str(x)[0]) for x in gray]
 
-        gray_benford = [gray_firsts.count(x) for x in range(1,10)]
+        gray_benford = [gray_firsts.count(x) for x in range(0,10)]
 
         gray_benford_pct = [round(x*100/sum(gray_benford), floating_precision) for x in gray_benford]
 
@@ -47,7 +67,7 @@ def benstats2(dir, csv, scale=1, minmax=(0, 255), floating_precision=8):
             batch.append({
                 'image': f,
                 'digit': i,
-                'pct': gray_benford_pct[i-1]
+                'pct': gray_benford_pct[i]
             })
 
         print("Analysing image {} of {}..".format(files.index(f)+1, len(files)), end='\r')
