@@ -1,14 +1,14 @@
 library(tidyr)
 library(ggplot2)
-batch <- read.csv("batch.csv", header = TRUE, sep = ",")
-batch <- pivot_longer(batch, cols = starts_with("red_"), names_to = "rlead", names_prefix = "red_", values_to = "red", values_drop_na = TRUE)
-batch <- pivot_longer(batch, cols = starts_with("green_"), names_to = "glead", names_prefix = "green_", values_to = "green", values_drop_na = TRUE)
-batch <- pivot_longer(batch, cols = starts_with("blue_"), names_to = "blead", names_prefix = "blue_", values_to = "blue", values_drop_na = TRUE)
+batch <- read.csv("csv/my_csv.csv",header = TRUE, sep = ",")
 batch
 
 ggplot(batch) + 
-  geom_boxplot(color='red', aes(rlead, red)) + 
-  geom_boxplot(color='green', aes(glead, green)) + 
-  geom_boxplot(color='blue', aes(blead, blue)) +
-  labs(title='Benford Law Distribution for RGB channelwise data') +
-  theme_linedraw()
+  geom_point(alpha = 0.25, size=2, aes(x=digit, y=pct, color=image)) + 
+  geom_line(aes(x=digit, y=pct, color=image), alpha = 0.25) +
+  labs(title='Benford Curves for Grayscale data') +
+  scale_y_sqrt() +
+  scale_x_continuous(breaks = seq(1, 10)) +
+  theme_linedraw() + 
+  theme(legend.position="none")
+
