@@ -16,6 +16,7 @@ entrypoints==0.4
 executing==1.1.0
 fastjsonschema==2.16.2
 fonttools==4.37.3
+importlib-metadata==5.0.0
 ipykernel==6.16.0
 ipython==8.5.0
 ipython-genutils==0.2.0
@@ -63,6 +64,7 @@ pytz==2022.2.1
 pyzmq==24.0.1
 qtconsole==5.3.2
 QtPy==2.2.0
+scipy==1.9.3
 Send2Trash==1.8.0
 six==1.16.0
 soupsieve==2.3.2.post1
@@ -74,3 +76,4 @@ traitlets==5.4.0
 wcwidth==0.2.5
 webencodings==0.5.1
 widgetsnbextension==4.0.3
+zipp==3.9.0
